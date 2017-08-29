@@ -1,12 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import Chart from "../components/chart";
+import Chart from '../components/chart';
 // import GoogleMap from "../components/google_map";
 
 class WeatherList extends Component {
+  //render a singel row
+  renderWeather(cityData) {
+    const name = cityData.city.name;
+    const temps = cityData.list.map(weather => weather.main.temp);
+    console.log(temps);
+    return (
+      <tr key={name}>
+        <td>
+          {name}
+        </td>
+        <td>
+          <Chart data={temps} color="orange" />
+        </td>
+        <td>
+          <Chart data={temps} color="orange" />
+        </td>
+        <td>
+          <Chart data={temps} color="orange" />
+        </td>
+      </tr>
+    );
+  }
   render() {
     return (
-      <table className="table-hover">
+      <table className=" table table-hover">
         <thead>
           <tr>
             <th>City</th>
@@ -14,16 +36,17 @@ class WeatherList extends Component {
             <th>Pressure</th>
             <th>Humidity</th>
           </tr>
-          <tbody>
-          </tbody>
         </thead>
+        <tbody>
+          {this.props.weather.map(this.renderWeather)}
+        </tbody>
       </table>
     );
   }
 }
 
 function mapStateToProps(state) {
-    return { weather: state.weather}
+  return { weather: state.weather };
 }
 
-export default connect(mapStateToProps)(WeatherList)
+export default connect(mapStateToProps)(WeatherList);
